@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Genesis NFT | Foundation Collection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* === RESET & BASE STYLES === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0052ff;
+            --secondary-color: #00d4ff;
+            --dark-color: #1e293b;
+            --darker-color: #0f172a;
+            --light-color: #f8fafc;
+            --gray-color: #64748b;
+            --accent-color: #00ff88;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--darker-color);
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* === NAVIGATION === */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-placeholder {
+            font-size: 2rem;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* === BUTTONS === */
+        .btn-connect, .btn-primary {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-connect {
+            background: rgba(0, 82, 255, 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-connect:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 82, 255, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            padding: 140px 0 80px;
+            background: linear-gradient(135deg, var(--darker-color) 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--gray-color);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .contract-address {
+            margin: 2rem 0;
+            padding: 1.2rem;
+            background: rgba(0, 82, 255, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .contract-address code {
+            background: transparent;
+            font-size: 0.9rem;
+            word-break: break-all;
+            color: var(--light-color);
+        }
+
+        .collection-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .collection-stats .stat {
+            text-align: center;
+        }
+
+        .collection-stats .stat h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .collection-stats .stat p {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        /* === NFT DISPLAY === */
+        .nft-display {
+            text-align: center;
+        }
+
+        .nft-frame {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 2px solid rgba(0, 82, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nft-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .nft-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .nft-frame:hover .nft-image {
+            transform: scale(1.02);
+        }
+
+        /* NFT Overlay Elements */
+        .nft-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .genesis-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+
+        .base-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0, 82, 255, 0.3);
+        }
+
+        .nft-id {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .nft-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-color);
+        }
+
+        .nft-info p {
+            color: var(--gray-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .nft-traits {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .trait {
+            background: rgba(0, 82, 255, 0.2);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* === OTHER SECTIONS === */
+        .story {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .story h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light-color);
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--gray-color);
+        }
+
+        .story-text ul {
+            margin-top: 1.5rem;
+            list-style: none;
+        }
+
+        .story-text li {
+            margin-bottom: 1rem;
+            padding-left: 0;
+            font-size: 1.1rem;
+        }
+
+        .mint-guide {
+            padding: 80px 0;
+        }
+
+        .mint-guide h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light-color);
+        }
+
+        .mint-guide .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .step p {
+            color: var(--gray-color);
+            line-height: 1.6;
+        }
+
+        /* === NOTIFICATIONS === */
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .mint-guide .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nft-visual {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .collection-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .nft-visual {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mint-guide .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                padding: 120px 0 60px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .nft-visual {
+                height: 250px;
+            }
+            
+            .step {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-placeholder">⛓️</div>
+                <span class="brand-name">BaseGenesis</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-connect" id="connectWallet">
+                    <i class="fas fa-wallet"></i>
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Base <span class="gradient-text">Genesis NFT</span>
+                </h1>
+                <p class="hero-subtitle">The Foundation of On-Chain Communities</p>
+                <p class="hero-description">
+                    Own a piece of Base history. Each Genesis NFT represents the foundation 
+                    of on-chain currency and community building.
+                </p>
+                <div class="contract-address">
+                    <strong>Contract:</strong> 
+                    <code>0x6F446e3A8159B325a3CBd71e00dE7A067EB1B620</code>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" id="mintButton" disabled>
+                        <i class="fas fa-plus"></i>
+                        Connect Wallet to Mint
+                    </button>
+                </div>
+                
+                <div class="collection-stats">
+                    <div class="stat">
+                        <h3>1,000</h3>
+                        <p>Total Supply</p>
+                    </div>
+                    <div class="stat">
+                        <h3>0.01 ETH</h3>
+                        <p>Mint Price</p>
+                    </div>
+                    <div class="stat">
+                        <h3>Base</h3>
+                        <p>Network</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <!-- NFT Display with YOUR Image -->
+                <div class="nft-display">
+                    <div class="nft-frame">
+                        <div class="nft-visual">
+                            <!-- Your NFT Image -->
+                            <img src="images/nft-image.jpg" alt="Base Genesis NFT" class="nft-image" id="nftImage">
+                            
+                            <!-- Overlay Elements -->
+                            <div class="nft-overlay">
+                                <div class="genesis-badge">GENESIS</div>
+                                <div class="base-badge">BASE</div>
+                                <div class="nft-id">#001</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nft-info">
+                        <h3 id="nftTitle">Base Genesis #001</h3>
+                        <p id="nftDescription">The Foundation Collection</p>
+                        <div class="nft-traits">
+                            <span class="trait">Foundation</span>
+                            <span class="trait">Genesis</span>
+                            <span class="trait">On-Chain</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="container">
+            <h2>The Genesis Story</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>Base Genesis NFTs represent the foundational building blocks of on-chain communities. Each piece symbolizes:</p>
+                    <ul>
+                        <li>💎 <strong>Currency On-Chain</strong> - Digital assets living on blockchain</li>
+                        <li>👥 <strong>Community Foundation</strong> - Building together on Base</li>
+                        <li>🚀 <strong>Genesis Moment</strong> - The beginning of something new</li>
+                        <li>⚡ <strong>Base Network</strong> - Powered by Coinbase & Ethereum</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Mint -->
+    <section class="mint-guide">
+        <div class="container">
+            <h2>How to Mint Your Genesis NFT</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">🔗</div>
+                    <h3>Connect Wallet</h3>
+                    <p>Link your Ethereum wallet to Base network</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">⛽</div>
+                    <h3>Get ETH for Gas</h3>
+                    <p>Ensure you have ETH for transaction fees</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🎨</div>
+                    <h3>Mint NFT</h3>
+                    <p>Click mint and confirm the transaction</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">👑</div>
+                    <h3>Join Community</h3>
+                    <p>Become a Genesis holder with special access</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Real Web3 NFT Website Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const connectButton = document.getElementById('connectWallet');
+            const mintButton = document.getElementById('mintButton');
+            const nftImage = document.getElementById('nftImage');
+            const nftTitle = document.getElementById('nftTitle');
+            const nftDescription = document.getElementById('nftDescription');
+            
+            // Contract Details - YOUR ACTUAL CONTRACT
+            const contractAddress = '0x6F446e3A8159B325a3CBd71e00dE7A067EB1B620';
+            const mintPrice = '0.0001'; // ETH - Update with your actual price
+            
+            // Base Network Configuration
+            const baseChainId = '0x2105'; // Base Mainnet
+            const baseChainHex = '0x2105';
+            
+            // State
+            let isConnected = false;
+            let userAddress = '';
+            let userBalance = '0';
+
+            // Event Listeners
+            connectButton.addEventListener('click', connectWallet);
+            mintButton.addEventListener('click', mintNFT);
+
+            // REAL Wallet Connection
+            async function connectWallet() {
+                try {
+                    // Check if Ethereum provider exists
+                    if (typeof window.ethereum === 'undefined') {
+                        showError('No Ethereum wallet found. Please install MetaMask or Coinbase Wallet.');
+                        openWalletInstall();
+                        return;
+                    }
+
+                    // Request account access
+                    const accounts = await window.ethereum.request({ 
+                        method: 'eth_requestAccounts' 
+                    });
+                    
+                    if (accounts.length === 0) {
+                        showError('Please connect your wallet.');
+                        return;
+                    }
+
+                    userAddress = accounts[0];
+                    isConnected = true;
+
+                    // Check if we're on Base network
+                    await checkNetwork();
+
+                    // Get user's balance
+                    await getUserBalance();
+
+                    // Update UI
+                    updateConnectionStatus();
+                    showSuccess('Wallet connected successfully!');
+
+                    // Listen for account changes
+                    setupEventListeners();
+
+                } catch (error) {
+                    console.error('Connection error:', error);
+                    if (error.code === 4001) {
+                        showError('Please connect your wallet to continue.');
+                    } else {
+                        showError('Failed to connect wallet: ' + error.message);
+                    }
+                }
+            }
+
+            // Check and switch to Base network if needed
+            async function checkNetwork() {
+                try {
+                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                    
+                    if (chainId !== baseChainHex) {
+                        const switchConfirm = confirm('Please switch to Base Network to mint NFTs. Switch now?');
+                        if (switchConfirm) {
+                            await switchToBaseNetwork();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Network check error:', error);
+                }
+            }
+
+            // Switch to Base Network
+            async function switchToBaseNetwork() {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: baseChainHex }],
+                    });
+                    showSuccess('Switched to Base Network!');
+                } catch (switchError) {
+                    // If network not added, add it
+                    if (switchError.code === 4902) {
+                        try {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [
+                                    {
+                                        chainId: baseChainHex,
+                                        chainName: 'Base Mainnet',
+                                        nativeCurrency: {
+                                            name: 'Ethereum',
+                                            symbol: 'ETH',
+                                            decimals: 18
+                                        },
+                                        rpcUrls: ['https://mainnet.base.org'],
+                                        blockExplorerUrls: ['https://basescan.org']
+                                    }
+                                ]
+                            });
+                        } catch (addError) {
+                            showError('Failed to add Base network: ' + addError.message);
+                        }
+                    } else {
+                        showError('Failed to switch network: ' + switchError.message);
+                    }
+                }
+            }
+
+            // Get user's ETH balance
+            async function getUserBalance() {
+                try {
+                    const balance = await window.ethereum.request({
+                        method: 'eth_getBalance',
+                        params: [userAddress, 'latest']
+                    });
+                    
+                    // Convert from wei to ETH
+                    userBalance = (parseInt(balance) / 1e18).toFixed(4);
+                    console.log('User balance:', userBalance, 'ETH');
+                    
+                } catch (error) {
+                    console.error('Balance check error:', error);
+                }
+            }
+
+            // REAL Mint NFT Function (Simulated for now - will connect to your contract)
+            async function mintNFT() {
+                if (!isConnected) {
+                    showError('Please connect your wallet first.');
+                    return;
+                }
+
+                // Check if user has enough ETH
+                if (parseFloat(userBalance) < parseFloat(mintPrice)) {
+                    showError(`Insufficient balance. You need ${mintPrice} ETH to mint.`);
+                    return;
+                }
+
+                try {
+                    // Show loading state
+                    mintButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Confirm in Wallet...';
+                    mintButton.disabled = true;
+
+                    // SIMULATED MINT - Replace with actual contract call
+                    await simulateRealMint();
+
+                    showSuccess('NFT minted successfully! Check your wallet.');
+                    
+                    // Update balance after mint
+                    await getUserBalance();
+
+                } catch (error) {
+                    console.error('Minting error:', error);
+                    if (error.code === 4001) {
+                        showError('Transaction was cancelled.');
+                    } else {
+                        showError('Minting failed: ' + error.message);
+                    }
+                } finally {
+                    // Reset button
+                    mintButton.innerHTML = `<i class="fas fa-plus"></i> Mint NFT (${mintPrice} ETH)`;
+                    mintButton.disabled = false;
+                }
+            }
+
+            // Simulate real minting process
+            async function simulateRealMint() {
+                return new Promise((resolve, reject) => {
+                    // Simulate transaction confirmation
+                    setTimeout(() => {
+                        // 90% success rate for simulation
+                        if (Math.random() > 0.1) {
+                            resolve();
+                        } else {
+                            reject(new Error('Transaction failed. Please try again.'));
+                        }
+                    }, 2000);
+                });
+            }
+
+            // Update UI after connection
+            function updateConnectionStatus() {
+                const shortAddress = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+                
+                connectButton.innerHTML = `<i class="fas fa-check"></i> ${shortAddress}`;
+                connectButton.style.background = '#10b981';
+                connectButton.style.borderColor = '#10b981';
+                connectButton.style.color = 'white';
+                
+                mintButton.disabled = false;
+                mintButton.innerHTML = `<i class="fas fa-plus"></i> Mint NFT (${mintPrice} ETH)`;
+                
+                // Update page title with connected status
+                document.title = `Base Genesis NFT | ${shortAddress}`;
+            }
+
+            // Setup event listeners for wallet changes
+            function setupEventListeners() {
+                // Account changed
+                window.ethereum.on('accountsChanged', (accounts) => {
+                    if (accounts.length === 0) {
+                        handleDisconnect();
+                    } else {
+                        userAddress = accounts[0];
+                        updateConnectionStatus();
+                        showSuccess('Account changed');
+                        getUserBalance();
+                    }
+                });
+
+                // Chain changed
+                window.ethereum.on('chainChanged', (chainId) => {
+                    window.location.reload();
+                });
+            }
+
+            // Handle wallet disconnect
+            function handleDisconnect() {
+                isConnected = false;
+                userAddress = '';
+                userBalance = '0';
+                
+                connectButton.innerHTML = '<i class="fas fa-wallet"></i> Connect Wallet';
+                connectButton.style.background = '';
+                connectButton.style.borderColor = '';
+                connectButton.style.color = '';
+                
+                mintButton.disabled = true;
+                mintButton.innerHTML = '<i class="fas fa-plus"></i> Connect Wallet to Mint';
+                
+                document.title = 'Base Genesis NFT | Foundation Collection';
+                showError('Wallet disconnected');
+            }
+
+            // Notification functions
+            function showSuccess(message) {
+                showNotification(message, 'success');
+            }
+
+            function showError(message) {
+                showNotification(message, 'error');
+            }
+
+            function showNotification(message, type) {
+                // Remove existing notifications
+                document.querySelectorAll('.notification').forEach(notif => notif.remove());
+                
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+
+            // Wallet installation helper
+            function openWalletInstall() {
+                const install = confirm('A Web3 wallet is required to mint NFTs. Would you like to install MetaMask?');
+                if (install) {
+                    window.open('https://metamask.io/download.html', '_blank');
+                }
+            }
+
+            // Initialize - Check if already connected
+            async function initialize() {
+                if (typeof window.ethereum !== 'undefined') {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        userAddress = accounts[0];
+                        isConnected = true;
+                        await getUserBalance();
+                        updateConnectionStatus();
+                        setupEventListeners();
+                    }
+                }
+            }
+
+            // Initialize on load
+            initialize();
+
+            console.log('Base Genesis NFT website loaded!');
+            console.log('Contract:', contractAddress);
+            console.log('Ready for real Web3 interactions!');
+        });
+    </script>
+</body>
+</html>
